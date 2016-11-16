@@ -15,7 +15,7 @@ using namespace std;
 int main(int argc, char** argv){
 	char string[50];
 	if (argc<3){
-		cout<<"Insufficient number of parameters."<<endl;
+		cerr<<"Insufficient number of parameters."<<endl;
 		return INSUFFICIENT_NUMBER_OF_PARAMETERS;
 	}
 	int status=0;

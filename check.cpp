@@ -12,7 +12,7 @@ int check_plugboard(const char* filename)
 	ifstream input(filename);
 	if (!input){
 		input.close();
-		cerr<<"Error opening input file."<<endl;
+		cerr<<"Error opening input file "<<filename<<endl;
 		return ERROR_OPENING_CONFIGURATION_FILE;
 	}
 	assert (input);
@@ -24,22 +24,22 @@ int check_plugboard(const char* filename)
 	
 	if (multiple_input(array, size-1)){
 		input.close();
-		cerr<<"Impossible plugboard configuration."<<endl;
+		cerr<<"Impossible plugboard configuration in "<<filename<<endl;
 		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 	}
 	if (size%2==0){
 		input.close();
-		cerr<<"Incorrect number of plugboard data points."<<endl;
+		cerr<<"Incorrect number of parameters in "<<filename<<endl;
 		return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 	}
 	if (not_in_range(array, size-1)){
 		input.close();
-		cerr<<"Input numbers not in range."<<endl;
+		cerr<<"Input parameters in "<<filename<<" not in range."<<endl;
 		return INVALID_INDEX;
 	}
 	if (!input.eof()){
 		input.close();
-		cerr<<"Non numeric character."<<endl;
+		cerr<<"Non numeric character in "<<filename<<endl;
 		return NON_NUMERIC_CHARACTER;
 	}
 	input.close();
@@ -50,7 +50,7 @@ int check_rotor(const char* filename){
 	ifstream input(filename);
 	if (!input){
 		input.close();
-		cerr<<"Error opening input file."<<endl;
+		cerr<<"Error opening input file "<<filename<<endl;
 		return ERROR_OPENING_CONFIGURATION_FILE;
 	}
 	assert(input);
@@ -66,12 +66,12 @@ int check_rotor(const char* filename){
 	}
 	if (not_in_range(array,26)){
 		input.close();
-		cerr<<"Invalid rotor data entry."<<endl;
+		cerr<<"Parameters in "<<filename<<" not in range"<<endl;
 		return INVALID_INDEX;
 	}
 	if(input.fail()&&!input.eof()){
 		input.close();
-		cerr<<"Non-numeric input character in rotor."<<endl;
+		cerr<<"Non-numeric input character in "<<filename<<endl;
 		return NON_NUMERIC_CHARACTER;
 	}
 	input.close();
@@ -82,7 +82,7 @@ int check_reflector(const char* filename){
 	ifstream input(filename);
 	if (!input){
 		input.close();
-		cerr<<"Error opening input file."<<endl;
+		cerr<<"Error opening input file "<<filename<<endl;
 		return ERROR_OPENING_CONFIGURATION_FILE;
 	}
 	assert (input);
@@ -93,22 +93,22 @@ int check_reflector(const char* filename){
 	}
 	if (multiple_input(array, size-1)){
 		input.close();
-		cerr<<"Invalid reflector mapping."<<endl;
+		cerr<<"Invalid reflector mapping in "<<filename<<endl;
 		return INVALID_REFLECTOR_MAPPING;
 	}
 	if (size!=27){
 		input.close();
-		cerr<<"Incorrect number of reflector parameters"<<endl;
+		cerr<<"Incorrect number of reflector parameters in "<<filename<<endl;
 		return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 	}
 	if (not_in_range(array,26)){
 		input.close();
-		cerr<<"Invalid reflector data entry."<<endl;
+		cerr<<"Parameter in "<<filename<<" not in range"<<endl;
 		return INVALID_INDEX;
 	}
 	if (!input.eof()){
 		input.close();
-		cerr<<"Non-numeric character in reflector."<<endl;
+		cerr<<"Non-numeric character in "<<filename<<endl;
 		return NON_NUMERIC_CHARACTER;
 	}
 	input.close();
@@ -119,7 +119,7 @@ int check_position(const char* filename, int argc){
 	ifstream input(filename);
 	if (!input){
 		input.close();
-		cerr<<"Error opening input file."<<endl;
+		cerr<<"Error opening input file "<<filename<<endl;
 		return ERROR_OPENING_CONFIGURATION_FILE;
 	}
 	assert (input);
@@ -130,17 +130,17 @@ int check_position(const char* filename, int argc){
 	}
 	if ((size-1)!=(argc-4)){
 		input.close();
-		cerr<<"Not sufficient starting positions for number of rotors."<<endl;
+		cerr<<"Not sufficient starting positions for number of rotors in "<<filename<<endl;
 		return NO_ROTOR_STARTING_POSITION;	
 	}
 	if (not_in_range(array, size-1)){
 		input.close();
-		cerr<<"Invalid index in position file."<<endl;
+		cerr<<"Parameter in "<<filename<<" not in range"<<endl;
 		return INVALID_INDEX;
 	}
 	if (!input.eof()){
 		input.close();
-		cerr<<"Non-numeric character in position file."<<endl;
+		cerr<<"Non-numeric character in "<<filename<<endl;
 		return NON_NUMERIC_CHARACTER;
 	}
 	input.close();
