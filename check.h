@@ -7,5 +7,6 @@ int check_reflector(const char* filename);
 int check_position(const char* filename, int argc);
 bool multiple_input(const int a[], int size);
 bool not_in_range(const int a[], int size);
+void cleaned_sized(int& size, int array[50], const char* filename, bool& invalid_input, int& status);
 
 #endif
