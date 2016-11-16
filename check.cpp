@@ -4,6 +4,7 @@
 #include "errors.h"
 #include <cstdio>
 #include <cassert>
+#include <string>
 
 using namespace std;
 
@@ -16,23 +17,31 @@ int check_plugboard(const char* filename)
 		return ERROR_OPENING_CONFIGURATION_FILE;
 	}
 	assert (input);
-	int array[30];
+	string temp;
 	int size=0;
-	while(!input.fail()){
-		input>>array[size++];
+	input>>temp;
+	while (!input.eof()){
+		input>>temp;
+		size++;
 	}
-	
-	if (multiple_input(array, size-1)){
+	input.close();
+	int array[30];
+	int n=0;
+	input.open(filename);
+	for(int n=0;!input.fail();n++){
+		input>>array[n];
+	}
+	if (multiple_input(array, size)){
 		input.close();
 		cerr<<"Impossible plugboard configuration in "<<filename<<endl;
 		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 	}
-	if (size%2==0){
+	if (size%2!=0){
 		input.close();
 		cerr<<"Incorrect number of parameters in "<<filename<<endl;
 		return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 	}
-	if (not_in_range(array, size-1)){
+	if (not_in_range(array, size)){
 		input.close();
 		cerr<<"Input parameters in "<<filename<<" not in range."<<endl;
 		return INVALID_INDEX;
@@ -86,17 +95,26 @@ int check_reflector(const char* filename){
 		return ERROR_OPENING_CONFIGURATION_FILE;
 	}
 	assert (input);
-	int array[30];
+	string temp;
 	int size=0;
-	while(!input.fail()){
-		input>>array[size++];
+	input>>temp;
+	while (!input.eof()){
+		input>>temp;
+		size++;
 	}
-	if (multiple_input(array, size-1)){
+	input.close();
+	int array[30];
+	int n=0;
+	input.open(filename);
+	for(int n=0;!input.fail();n++){
+		input>>array[n];
+	}
+	if (multiple_input(array, size)){
 		input.close();
 		cerr<<"Invalid reflector mapping in "<<filename<<endl;
 		return INVALID_REFLECTOR_MAPPING;
 	}
-	if (size!=27){
+	if (size!=26){
 		input.close();
 		cerr<<"Incorrect number of reflector parameters in "<<filename<<endl;
 		return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;

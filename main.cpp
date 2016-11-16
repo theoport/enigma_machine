@@ -43,5 +43,5 @@ int main(int argc, char** argv){
 	enigma_machine.run(input);		
 	cin>>ws>>input;
 	}
-	return 0;
+	return NO_ERROR;
 }	
