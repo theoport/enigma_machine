@@ -34,13 +34,15 @@ int main(int argc, char** argv){
 	Enigma enigma_machine(argc, argv);
 	cout<<"Please enter your string of characters in capital letters."<<endl;
 	char input;
-	while (cin>>ws>>input){
+	cin>>ws>>input;
+	while (!cin.eof()){
 		if (input<'A'||input>'Z'){
 			cerr<<input<<" is not a valid character, input has to be in capital letters. Program is stopped."<<endl;
 			return INVALID_INPUT_CHARACTER;
 		}
 		else
 			enigma_machine.run(input);		
+	cin>>ws>>input;	
 	}
 	return 0;
 }	
