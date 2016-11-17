@@ -22,6 +22,11 @@ int check_plugboard(const char* filename)
 	input>>temp;
 	while(!input.fail()){
 		array[size++]=temp;
+		if (size>26){	
+			input.close();
+			cerr<<"Incorrect number of parameters in plugboard file "<<filename<<endl;
+			return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
+		}
 		if (multiple_input(array, size, temp)){
 			input.close();
 			cerr<<"Impossible configuration in plugboard file "<<filename<<endl;
@@ -40,7 +45,7 @@ int check_plugboard(const char* filename)
 		cerr<<"Non-numeric character in plugboard file "<<filename<<endl;
 		return NON_NUMERIC_CHARACTER;
 	}
-	if (size%2!=0||size>26){
+	if (size%2!=0){
 		input.close();
 		cerr<<"Incorrect number of parameters in plugboard file "<<filename<<endl;
 		return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
@@ -98,6 +103,11 @@ int check_reflector(const char* filename){
 	input>>temp;
 	while(!input.fail()){
 		array[size++]=temp;
+		if (size>26){
+			input.close();
+			cerr<<"Incorrect number of parameters in reflector file "<<filename<<endl;
+			return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
+		}
 		if (multiple_input(array, size, temp)){
 			input.close();
 			cerr<<"Impossible configuration in reflector file "<<filename<<endl;
