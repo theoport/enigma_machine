@@ -14,11 +14,12 @@ using namespace std;
 
 int main(int argc, char** argv){
 	char string[50];
-	if (argc<3){
+	if (argc<3||argc==4){
 		cerr<<"Insufficient number of parameters."<<endl;
 		return INSUFFICIENT_NUMBER_OF_PARAMETERS;
 	}
 	int status=0;
+	//checks if configuration files from command line are well formed:
 	for (int i=1;i<argc;i++){
 		if (i==1)
 			status=check_plugboard(argv[i]);
@@ -31,18 +32,22 @@ int main(int argc, char** argv){
 		if (status>0)
 			return status;
 	}
+	//constructs enigma machine:
 	Enigma enigma_machine(argc, argv);
-	cout<<"Please enter your string of characters in capital letters."<<endl;
+	cout<<endl;
 	char input;
 	cin>>ws>>input;
 	while (!cin.eof()){
+		//checks if input character is between A and Z:
 		if (input<'A'||input>'Z'){
 			cerr<<input<<" is not a valid character, input has to be in capital letters. Program is stopped."<<endl;
 			return INVALID_INPUT_CHARACTER;
 		}
+		//runs input character through enigma machine and outputs resulting output character:
 		else
 			enigma_machine.run(input);		
 	cin>>ws>>input;	
 	}
+	cout<<endl<<endl;
 	return 0;
 }	

@@ -11,7 +11,7 @@ using namespace std;
 
 int check_plugboard(const char* filename)
 {
-	int size=0, temp;
+	int size=0, temp,n;
 	int array[50];
 	ifstream input(filename);
 	if (!input){
@@ -27,7 +27,7 @@ int check_plugboard(const char* filename)
 			cerr<<"Incorrect number of parameters in plugboard file "<<filename<<endl;
 			return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		}
-		if (multiple_input(array, size, temp)){
+		if (multiple_input(array, size, temp,n)){
 			input.close();
 			cerr<<"Impossible configuration in plugboard file "<<filename<<endl;
 			return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
@@ -50,11 +50,16 @@ int check_plugboard(const char* filename)
 		cerr<<"Incorrect number of parameters in plugboard file "<<filename<<endl;
 		return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 	}
+	input.close();
+	if (input.bad()){
+		cerr<<"Error closing configuration file "<<filename<<endl;
+		return ERROR_CLOSING_CONFIGURATION_FILE;
+	}
 	return NO_ERROR;
 }
 
 int check_rotor(const char* filename){
-	int size=0, temp;
+	int size=0, temp, n;
 	int array[50];
 	ifstream input(filename);
 	if (!input){
@@ -65,9 +70,10 @@ int check_rotor(const char* filename){
 	input>>temp;
 	while(!input.fail()&&size<=25){
 		array[size++]=temp;
-		if (multiple_input(array, size, temp)){
+		if (multiple_input(array, size, temp, n)){
 			input.close();
-			cerr<<"Impossible configuration in rotor file "<<filename<<endl;
+			cerr<<"Invalid mapping of input "<<size<<" to output "<<temp;
+			cerr<<" (output "<<temp<<" is already mapped to from input "<<n<<")"<<endl;
 			return INVALID_ROTOR_MAPPING;
 		}
 		else if (temp<0||temp>25){
@@ -80,19 +86,24 @@ int check_rotor(const char* filename){
 	}
 	if (input.fail()&&!input.eof()){
 		input.close();
-		cerr<<"Non-numeric character in rotor file "<<filename<<endl;
+		cerr<<"Non-numeric character for mapping in rotor file "<<filename<<endl;
 		return NON_NUMERIC_CHARACTER;
 	}
 	if (size<=25){
 		input.close();
-		cerr<<"Invalid rotor mapping in rotor file "<<filename<<endl;
+		cerr<<"Not all inputs mapped in rotor file: "<<filename<<endl;
 		return INVALID_ROTOR_MAPPING;
+	}
+	input.close();
+	if (input.bad()){
+		cerr<<"Error closing configuration file "<<filename<<endl;
+		return ERROR_CLOSING_CONFIGURATION_FILE;
 	}
 	return NO_ERROR;
 }
 
 int check_reflector(const char* filename){
-	int size=0, temp;
+	int size=0, temp,n;
 	int array[50];
 	ifstream input(filename);
 	if (!input){
@@ -105,10 +116,13 @@ int check_reflector(const char* filename){
 		array[size++]=temp;
 		if (size>26){
 			input.close();
-			cerr<<"Incorrect number of parameters in reflector file "<<filename<<endl;
+			if (size%2!=0)
+				cerr<<"Incorrect (odd) number of parameters in reflector file "<<filename<<endl;
+			else
+				cerr<<"Too many reflector mappings in reflector file "<<filename<<endl;
 			return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		}
-		if (multiple_input(array, size, temp)){
+		if (multiple_input(array, size, temp, n)){
 			input.close();
 			cerr<<"Impossible configuration in reflector file "<<filename<<endl;
 			return INVALID_REFLECTOR_MAPPING;
@@ -123,13 +137,21 @@ int check_reflector(const char* filename){
 	}
 	if (!input.eof()){
 		input.close();
-		cerr<<"Non-numeric character in reflector file "<<filename<<endl;
+		cerr<<"Non-numeric character for mapping in rotor file "<<filename<<endl;
 		return NON_NUMERIC_CHARACTER;
 	}
 	if (size!=26){
 		input.close();
-		cerr<<"Incorrect number of parameters in reflector file "<<filename<<endl;
+		if (size%2!=0)
+			cerr<<"Incorrect number of parameters in reflector file "<<filename<<endl;
+		else 
+			cerr<<"Insufficient number of mappins in reflector file: "<<filename<<endl;
 		return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
+	}
+	input.close();
+	if (input.bad()){
+		cerr<<"Error closing configuration file "<<filename<<endl;
+		return ERROR_CLOSING_CONFIGURATION_FILE;
 	}
 	return NO_ERROR;
 }
@@ -156,29 +178,28 @@ int check_position(const char* filename, int argc){
 	}
 	if (!input.eof()){
 		input.close();
-		cerr<<"Non-numeric character in position file "<<filename<<endl;
+		cerr<<"Non-numeric character in rotor positions file "<<filename<<endl;
 		return NON_NUMERIC_CHARACTER;
 	}
 	if ((size)!=(argc-4)){
-		cerr<<"Not sufficient starting positions for number of rotors in position file "<<filename<<endl;
+		cerr<<"Not sufficient starting positions for number of rotors in rotor position file ";
+		cerr<<filename<<endl;
 		return NO_ROTOR_STARTING_POSITION;	
+	}
+	input.close();
+	if (input.bad()){
+		cerr<<"Error closing configuration file "<<filename<<endl;
+		return ERROR_CLOSING_CONFIGURATION_FILE;
 	}
 	return NO_ERROR;
 }	
 
-bool multiple_input(const int a[], int size, int input){
-	for (int n=0;n<size-1;n++){
+bool multiple_input(const int a[], int size, int input, int& n){
+	for (n=0;n<size-1;n++){
 		if(input==a[n])
 				return true;
 	}
 	return false;
 }
 
-bool not_in_range(const int a[], int size){
-	for (int n=0;n<size;n++){
-			if (a[n]>25||a[n]<0)
-				return true;
-	}
-	return false;
-}
 

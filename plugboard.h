@@ -5,10 +5,11 @@
 class Plugboard
 {
 private:
-	int* value;
+	int* pairs;
 	int data_entries;
 public:
 	Plugboard(const char* filename);
+	~Plugboard();
 	char swap(char input);
 };
 

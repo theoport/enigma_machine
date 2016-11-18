@@ -8,6 +8,7 @@
 using namespace std;
 
 Reflector::Reflector(const char* filename){
+	//reads parameters of filename into reflector list:
 	ifstream input(filename);
 	for (int n=0;n<26;n++)
 		input>>list[n];

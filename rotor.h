@@ -12,6 +12,7 @@ private:
 public:
 	friend void invert_list(int a[26], int b[26]);
 	Rotor(const char* filename, int starting_point);
+	~Rotor();
 	void make_turn();
 	bool is_notch();
 	char scramble_forwards(char input);
@@ -21,3 +22,5 @@ public:
 void invert_list(const int a[26], int b[26]);
 
 #endif
+
+
