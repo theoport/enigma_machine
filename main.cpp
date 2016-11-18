@@ -34,7 +34,6 @@ int main(int argc, char** argv){
 	}
 	//constructs enigma machine:
 	Enigma enigma_machine(argc, argv);
-	cout<<endl;
 	char input;
 	cin>>ws>>input;
 	while (!cin.eof()){
@@ -48,6 +47,5 @@ int main(int argc, char** argv){
 			enigma_machine.run(input);		
 	cin>>ws>>input;	
 	}
-	cout<<endl<<endl;
 	return 0;
 }	

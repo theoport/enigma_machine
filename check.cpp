@@ -72,7 +72,7 @@ int check_rotor(const char* filename){
 		array[size++]=temp;
 		if (multiple_input(array, size, temp, n)){
 			input.close();
-			cerr<<"Invalid mapping of input "<<size<<" to output "<<temp;
+			cerr<<"Invalid mapping of input "<<(size-1)<<" to output "<<temp;
 			cerr<<" (output "<<temp<<" is already mapped to from input "<<n<<")"<<endl;
 			return INVALID_ROTOR_MAPPING;
 		}
@@ -137,15 +137,15 @@ int check_reflector(const char* filename){
 	}
 	if (!input.eof()){
 		input.close();
-		cerr<<"Non-numeric character for mapping in rotor file "<<filename<<endl;
+		cerr<<"Non-numeric character in reflector file "<<filename<<endl;
 		return NON_NUMERIC_CHARACTER;
 	}
 	if (size!=26){
 		input.close();
 		if (size%2!=0)
-			cerr<<"Incorrect number of parameters in reflector file "<<filename<<endl;
+			cerr<<"Incorrect (odd) number of parameters in reflector file "<<filename<<endl;
 		else 
-			cerr<<"Insufficient number of mappins in reflector file: "<<filename<<endl;
+			cerr<<"Insufficient number of mappings in reflector file: "<<filename<<endl;
 		return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 	}
 	input.close();
