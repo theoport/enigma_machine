@@ -30,9 +30,9 @@ Enigma::Enigma(int argc, char** argv){
 		rotor_array=NULL;
 	}
 	//constructs new plugboard and sets pointer to it:
-	plugboard=new Plugboard(argv[1]);
+	plugboard= new Plugboard(argv[1]);
 	//constructs new reflector and sets pointer to it:
-	reflector=new Reflector(argv[2]);
+	reflector= new Reflector(argv[2]);
 	
 }
 

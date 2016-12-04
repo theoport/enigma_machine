@@ -42,8 +42,7 @@ Rotor::~Rotor()
 
 void Rotor::make_turn(){
 	turns++;
-	if (turns==26)
-		turns=0;
+	turns=turns%26;
 }
 
 bool Rotor::is_notch(){
