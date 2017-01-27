@@ -1,3 +1,3 @@
 # enigma_machine
 
-details in pdf file
+C++ coursework for the MSc in Computing Science at Imperial. See details in pdf file
